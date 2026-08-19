@@ -19,6 +19,17 @@ pool = None
 @app.on_event("startup")
 async def startup():
     global pool
+    print("DATABASE_URL exists:", bool(DATABASE_URL))
+
+    if not DATABASE_URL:
+        raise RuntimeError("DATABASE_URL is not configured")
+
+    parsed = urlparse(DATABASE_URL)
+
+    print("Database host:", parsed.hostname)
+    print("Database port:", parsed.port)
+    print("Database name:", parsed.path)
+    
     pool = await asyncpg.create_pool(DATABASE_URL)
     print(" Database connection pool created.")
 @app.on_event("shutdown")
