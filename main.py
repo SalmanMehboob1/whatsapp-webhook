@@ -3,6 +3,7 @@ import asyncpg
 from datetime import datetime
 from fastapi import FastAPI, Request, Query
 from dotenv import load_dotenv
+from urllib.parse import urlparse
 
 load_dotenv()
 
@@ -29,7 +30,7 @@ async def startup():
     print("Database host:", parsed.hostname)
     print("Database port:", parsed.port)
     print("Database name:", parsed.path)
-    
+
     pool = await asyncpg.create_pool(DATABASE_URL)
     print(" Database connection pool created.")
 @app.on_event("shutdown")
