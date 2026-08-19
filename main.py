@@ -8,8 +8,8 @@ load_dotenv()
 
 app = FastAPI(title="WhatsApp Webhook", version="1.0")
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
-VERIFY_TOKEN = os.environ.get("VERIFY_TOKEN")
+DATABASE_URL = os.getenv("DATABASE_URL")
+VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
 
 # Global database connection pool
 pool = None
@@ -21,7 +21,6 @@ async def startup():
     global pool
     pool = await asyncpg.create_pool(DATABASE_URL)
     print(" Database connection pool created.")
-
 @app.on_event("shutdown")
 async def shutdown():
     if pool:
